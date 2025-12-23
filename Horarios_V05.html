@@ -1,0 +1,926 @@
+<html>
+<head>
+<title>Horários</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style type="text/css">
+label {
+  display: block;
+}
+
+table {
+  border-collapse:collapse;
+  width: 100%;
+}
+
+table.page {
+  page-break-after: always;
+  page-break-inside: avoid;
+}
+
+tr.zero {
+  background-color:#004000;
+  color:white;
+  font-weight:bold;
+  word-wrap: break-word;
+}
+
+tr.one {
+  background-color:#CCFFCC;
+  color:#003300;
+}
+
+tr.two {
+  background-color:#99FF99;
+  color:#003300;
+}
+
+td {
+  border:1px solid #98bf21;
+  width:14%;
+  padding-top:3px;
+  padding-bottom:1px;
+  text-align:center;
+}
+
+td.tdheader {
+  border:1px solid #0000FF;
+  font-size:26px;
+  vertical-align: middle;
+  width: 100%;
+  font-weight:bold;
+  background-color: #00A5FF;
+}
+
+td.conteudo {
+  vertical-align: top;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  padding: 10px;
+}
+
+td.menu {
+  vertical-align: top;
+  text-align: left;
+  table-layout: fixed;
+  background-color: #73B9FF;
+  padding: 10px;
+  border:1px solid #0000FF;
+}
+
+td.footer {
+  border:1px solid #0000FF;
+  background-color:#00A5FF;
+}
+
+td.zero {
+  width:100px;
+  font-weight:bold;
+}
+
+td.last {
+  border:none;
+  height:10px;
+}
+
+label.comandos {
+  color:black;
+}
+
+label.comandos:hover {
+  color:#0000B3;
+}
+a {
+  color:black;
+  text-decoration:none;
+}
+
+div#menu1 {
+  display: none;
+}
+@media screen {
+  .conteudo {border:1px solid #0000FF; background-color: #EEEEEE;}
+  td.zero {background-color:#004000; color:white;}
+}
+
+@media print {
+  thead {display:table-header-group}
+  .menu {display:none;}
+  .header {display:none;}
+  .footer {display:none;}
+  .conteudo {border:none; background-color:white;}
+  td {color: #000000; border:1px solid #000000; line-height: 15px;}
+  tr.zero {background-color:#AAAAAA;}
+  tr.one {background-color:#EEEEEE;}
+  tr.two {background-color:#CCCCCC;}
+}
+
+</style>
+</head>
+<body onload=iniciar()>
+<script type="text/javascript">
+var dias=['',
+'Segunda',
+'Terça',
+'Quarta',
+'Quinta',
+'Sexta',
+'Sábado'];
+var horarios=['',
+'07:30',
+'08:30',
+'09:30',
+'10:30',
+'11:30',
+'12:30',
+'13:30',
+'14:30',
+'15:30',
+'16:30',
+'17:30',
+'18:30',
+'19:30',
+'20:30',
+'21:30'];
+var professores=[
+'Adriana Gindri Salbego',
+'Adriano Roberto da Silva Carotenuto',
+'Aldo Leonel Temp',
+'Aldoni Gabriel Wiedenhoft',
+'Alessandro Bof de Oliveira',
+'Alessandro Botti Benevides',
+'Alessandro Gonçalves Girardi',
+'Alexandre Silva de Oliveira',
+'Alexandre Urbano Hoffmann',
+'Alice Fonseca Finger',
+'Aline Vieira de Mello',
+'Alisson Simonetti Milani',
+'Amanda Meincke Melo',
+'Ana Paula Carboni de Mello',
+'Ana Paula Garcia',
+'Ana Paula Gomes Lara',
+'Angélica Bordin Colpo',
+'Anielle Severo Lisboa de Andrade',
+'Arlindo Dutra Carvalho Junior',
+'Bruno Boessio Vizzotto',
+'Carlos Aurélio Dilli Gonçalves',
+'Celso Nobre da Fonseca',
+'César Flaubiano da Cruz Cristaldo',
+'Chaiane Guerra da Conceição',
+'Chiara Valsecchi',
+'Chrystian Dalla Lana da Silva',
+'Claudio Schepke',
+'Concurso Efetivo Perfil Ea',
+'Concurso Efetivo Perfil Es',
+'Cristian Muller',
+'Cristian Pohl Meinhardt',
+'Diego Arthur Hartmann',
+'Diego Luis Kreutz',
+'Diogo João Cardoso',
+'Dionatan Ricardo Schmitd',
+'Ederli Marangon',
+'Edson Rodrigo Schlosser',
+'Eduardo Machado dos Santos',
+'Elder de Macedo Rodrigues',
+'Eliezer Soares Flores',
+'Eracilda Fontanela',
+'Fabiano Tondello Castoldi',
+'Fabio Kaspary Schons',
+'Fabio Livi Lamos',
+'Fabio Luis Livi Ramos',
+'Fábio Paulo Basso',
+'Fátima Cibele Soares',
+'Felipe Bovolini Grigoletto',
+'Felipe Denardin Costa',
+'Fernanda Bianchi Pereira da Costa',
+'Fladimir Fernandes dos Santos',
+'Gabriela Silveira da Rosa',
+'Gilleanes Thorwald Araujo Guedes',
+'Giovani Guarienti Pozzebon',
+'Guilherme Sebastião da Silva',
+'Gustavo Fuhr Santiago',
+'Henrique Eguilhor Rodrigues',
+'Ildevana Poltronieri Rodrigues',
+'Jacson Weber de Menezes',
+'Jaelson Budny',
+'Jean Felipe Patikowski Cheiran',
+'João Pablo Silva da Silva',
+'Jorge Pedraza Arpasi',
+'Jumar Luís Russi',
+'Juner Menezes Vieira',
+'Lanes Beatriz Acosta Jaques',
+'Leandro Ferreira Friedrich',
+'Lucas Santos Pereira',
+'Ludmyla de Oliveira Almeida',
+'Luis Eduardo Kosteski',
+'Luis Enrique Gomez Armas',
+'Luis Ernesto Roca Bruno',
+'Luiz Eduardo Medeiros',
+'Maicon Bernardino da Silveira',
+'Maicon Fonseca Andrades',
+'Marcelo Caggiani Luizelli',
+'Marcelo Hahn Durgante',
+'Marcelo Resende Thielo',
+'Márcio Stefanello',
+'Marco Antonio Durlo Tier',
+'Marcos Vinício Thomas Heckler',
+'Marilia Ferreira Tamiosso',
+'Mauricio Paz França',
+'Mauricio Silveira dos Santos',
+'Mauro Fonseca Rodrigues',
+'Mayara Bitencourt Leao',
+'Micael Marcio Oliveira',
+'Natalia Braun Chagas',
+'Natália Ferrão da Silva',
+'Paulo César Comassetto de Aguirre',
+'Paulo Silas Severo de Souza',
+'Pedro Roberto de Azambuja Madruga',
+'Professores',
+'Rafael Maroneze',
+'Raquel Mainardi Pillat Basso',
+'Raquel Mariano Linhares',
+'Ricardo Bohaczuk Venturelli',
+'Roberlaine Ribeiro Jorge',
+'Rodrigo Brandão Mansilha',
+'Sidinei Ghissoni',
+'Silvio Ereno Quincozes',
+'Simone Dornelles Venquiaruto',
+'Sub. Telecom',
+'Telmo Egmar Camilo Deifeld',
+'Tonilson de Souza Rosendo',
+'Tulio Augusto Zucareli de Souza',
+'Vicente Bergamini Puglia',
+'Vilnei de Oliveira Dias',
+'Vinícius dos Santos Cunha',
+'Wilber Feliciano Chambi Tapahuasco',
+'Williamson Alison Freitas Silva',
+'Willian da Motta Brum'];
+var semestres=[
+'PPGES'];
+var salas=[
+'A1-102 (Lab. de Informática 5)',
+'A1-123 (Lab. de Microscopia Eletrônica de Varredura)',
+'A1-201 (Sala de Desenho)',
+'A1-202 (Lab. de Informática 4)',
+'A1-203 (Sala de Aula)',
+'A1-204 (Sala de Aula)',
+'A1-205 (Sala de Aula)',
+'A1-209 (Lab. de Informática - PPGs)',
+'A1-210 (Lab. de Informática 2)',
+'A1-211 (Sala de Aula)',
+'A1-212 (Lab. de Informática 1)',
+'A1-301 (Sala de Aula)',
+'A1-302 (Lab. de Informática 3)',
+'A1-303 (Sala de Aula)',
+'A1-304 (Sala de Aula)',
+'A1-305 (Sala de Aula)',
+'A1-309 (Sala da Aula - PPGs)',
+'A1-310 (Sala de Aula)',
+'A1-311 (Sala de Aula)',
+'A1-312 (Sala de Aula)',
+'A1-315 (Sala de Aula)',
+'A3-101 (Lab. de Solos e Pavimentação)',
+'A3-103 (Lab. de Hidráulica/Irrigação)',
+'A3-104 (Lab. de Metalografia, Tratamentos Térmicos e Ensaios Mecânicos)',
+'A3-105 (Lab. de Estruturas, Materiais e Construção)',
+'A3-107 (Lab. de Eletrônica)',
+'A3-109 (Lab. de Sistemas de Energia e Automação)',
+'A3-202 (Lab. de Óptica e Comunicações)',
+'A3-203 (Lab. de Geoprocessamento e Topografia)',
+'A3-206 (Lab. de Física)',
+'A3-207 (Lab. de Química)',
+'A3-211 (Lab. de Telecomunicações)',
+'Área Experimental',
+'C2-101b (Lab. de Metrologia e Instrumentação)',
+'C2-102 (Lab. de Agricultura do Pampa)',
+'C2-103 (Lab. de Reuso de Efluentes e de Água na Agricultura)',
+'C2-104 (Lab. de Pós-Colheita)',
+'C3-101 (Lab. de Sistemas Fluidotérmico)',
+'C3-102 (Lab. de Controle de Automação)',
+'C3-103 (Lab. de Aerodinâmica;Aeropampa)',
+'C3-104 (Lab. de Soldagem e Fundição)',
+'C3-105 (Lab. de Usinagem)',
+'C4-10 (Lab. de Mecanização Agrícola)',
+'C4-10B (Sala de Aula)',
+'Sem Sala',
+'A3-103',
+'EaD',
+'Salas'];
+var dados=[
+['93','João Pablo Silva da Silva','A1-212 (Lab. de Informática 1)','CCCG;ESCG;PPGES','18:30','Quarta','Introdução À Ciência de Dados Al5170','Pratica','T10;T70;T52','Vagas','1','1','4'],
+['94','João Pablo Silva da Silva','A1-212 (Lab. de Informática 1)','CCCG;ESCG;PPGES','19:30','Quarta','Introdução À Ciência de Dados Al5170','Pratica','T10;T70;T52','Vagas','1','1','4'],
+['95','João Pablo Silva da Silva','A1-212 (Lab. de Informática 1)','CCCG;ESCG;PPGES','20:30','Terça','Introdução À Ciência de Dados Al5170','Pratica','T10;T70;T52','Vagas','1','1','4'],
+['96','João Pablo Silva da Silva','A1-212 (Lab. de Informática 1)','CCCG;ESCG;PPGES','21:30','Terça','Introdução À Ciência de Dados Al5170','Pratica','T10;T70;T52','Vagas','1','1','4'],
+['98','Marcelo Caggiani Luizelli','A1-102 (Lab. de Informática 5)','CCCG;ESCG;PPGES','08:30','Quarta','Programabilidade de Infraestruturas de Rede Al5088','Pratica','T10;T70;T52','Vagas','1','1','1'],
+['99','Marcelo Caggiani Luizelli','A1-102 (Lab. de Informática 5)','CCCG;ESCG;PPGES','09:30','Quarta','Programabilidade de Infraestruturas de Rede Al5088','Pratica','T10;T70;T52','Vagas','1','1','1'],
+['100','Marcelo Caggiani Luizelli','A1-102 (Lab. de Informática 5)','CCCG;ESCG;PPGES','10:30','Quarta','Programabilidade de Infraestruturas de Rede Al5088','Pratica','T10;T70;T52','Vagas','1','1','1'],
+['101','Marcelo Caggiani Luizelli','A1-102 (Lab. de Informática 5)','CCCG;ESCG;PPGES','11:30','Quarta','Programabilidade de Infraestruturas de Rede Al5088','Pratica','T10;T70;T52','Vagas','1','1','1'],
+['845','Elder de Macedo Rodrigues','A1-309 (Sala da Aula - PPGs)','PPGES','19:30','Segunda','Engenharia de Software Experimental Al5083','Pratica','T52','Vagas','1','1','1'],
+['846','Elder de Macedo Rodrigues','A1-309 (Sala da Aula - PPGs)','PPGES','20:30','Segunda','Engenharia de Software Experimental Al5083','Pratica','T52','Vagas','1','1','1'],
+['847','Elder de Macedo Rodrigues','A1-309 (Sala da Aula - PPGs)','PPGES','21:30','Segunda','Engenharia de Software Experimental Al5083','Pratica','T52','Vagas','1','1','1'],
+['277','Gilleanes Thorwald Araujo Guedes','A1-309 (Sala da Aula - PPGs)','PPGES','18:30','Quinta','Interfaces Humano Computador No Desenvolvimento de Software Al5092','Pratica','T52','Vagas','1','1','1'],
+['278','Williamson Alison Freitas Silva','A1-309 (Sala da Aula - PPGs)','PPGES','19:30','Quinta','Interfaces Humano Computador No Desenvolvimento de Software Al5092','Pratica','T52','Vagas','1','1','1'],
+['279','Williamson Alison Freitas Silva','A1-309 (Sala da Aula - PPGs)','PPGES','20:30','Quinta','Interfaces Humano Computador No Desenvolvimento de Software Al5092','Pratica','T52','Vagas','1','1','1'],
+['280','Williamson Alison Freitas Silva','A1-309 (Sala da Aula - PPGs)','PPGES','21:30','Quinta','Interfaces Humano Computador No Desenvolvimento de Software Al5092','Pratica','T52','Vagas','1','1','1'],
+['852','Maicon Bernardino da Silveira','A1-309 (Sala da Aula - PPGs)','PPGES','20:30','Quarta','Modelagem de Software - Al5089','Pratica','T52','Vagas','1','1','1'],
+['853','Maicon Bernardino da Silveira','A1-309 (Sala da Aula - PPGs)','PPGES','21:30','Quarta','Modelagem de Software - Al5089','Pratica','T52','Vagas','1','1','1'],
+['854','Maicon Bernardino da Silveira','A1-309 (Sala da Aula - PPGs)','PPGES','18:30','Terça','Modelagem de Software - Al5089','Pratica','T52','Vagas','1','1','1'],
+['855','Maicon Bernardino da Silveira','A1-309 (Sala da Aula - PPGs)','PPGES','19:30','Terça','Modelagem de Software - Al5089','Pratica','T52','Vagas','1','1','1'],
+['285','Diego Luis Kreutz','A1-309 (Sala da Aula - PPGs)','PPGES','13:30','Quinta','Segurança de Sistemas Al5086','Pratica','T52','Vagas','1','1','1'],
+['286','Diego Luis Kreutz','A1-309 (Sala da Aula - PPGs)','PPGES','14:30','Quinta','Segurança de Sistemas Al5086','Pratica','T52','Vagas','1','1','1'],
+['287','Diego Luis Kreutz','A1-309 (Sala da Aula - PPGs)','PPGES','15:30','Quinta','Segurança de Sistemas Al5086','Pratica','T52','Vagas','1','1','1'],
+['288','Diego Luis Kreutz','A1-309 (Sala da Aula - PPGs)','PPGES','16:30','Quinta','Segurança de Sistemas Al5086','Pratica','T52','Vagas','1','1','1']];
+var correcoes = [[/ De /g, ' de '],
+[/ Da /g, ' da '],
+[/ Iii/g, ' III'],
+[/ Ii/g, ' II'],
+[/ Do /g, ' do '],
+[/ Dos /g, ' dos '],
+[/ E /g, ' e '],
+[/ Em /g, ' em '],
+[/ Para /g, ' para '],
+[/ Por /g, ' por '],
+[/ Das /g, ' das '],
+[/ Sep/g, ' SEP'],
+[/Administracao/g, 'Administração'],
+[/Algebra/g, 'Álgebra'],
+[/Analitica/g, 'Analítica'],
+[/Analise/g, 'Análise'],
+[/Automacao/g, 'Automação'],
+[/Basica/g, 'Básica'],
+[/Calculo/g, 'Cálculo'],
+[/Ciencia/g, 'Ciência'],
+[/Comunicacoes/g, 'Comunicações'],
+[/Concepcao/g, 'Concepção'],
+[/Conclusao/g, 'Conclusão'],
+[/Dinamicos/g, 'Dinâmicos'],
+[/Distribuicao/g, 'Distribuição'],
+[/Economica/g, 'Econômica'],
+[/Eletricas/g, 'Elétricas'],
+[/Eletricos/g, 'Elétricos'],
+[/Eletronica/g, 'Eletrônica'],
+[/Eletronicos/g, 'Eletrônicos'],
+[/Eletrotecnica/g, 'Eletrotécnica'],
+[/Equacoes/g, 'Equações'],
+[/Estagio/g, 'Estágio'],
+[/Estatistica/g, 'Estatística'],
+[/Estocasticos/g, 'Estocásticos'],
+[/Etica/g, 'Ética'],
+[/Exercicio/g, 'Exercício'],
+[/Fenomenos/g, 'Fenômenos'],
+[/Fisica/g, 'Física'],
+[/Gestao/g, 'Gestão'],
+[/Hidraulic/g, 'Hidráulic'],
+[/Instalacoes/g, 'Instalações'],
+[/Instrumentacao/g, 'Instrumentação'],
+[/Introducao/g, 'Introdução'],
+[/Legislacao/g, 'Legislação'],
+[/Magneticos/g, 'Magnéticos'],
+[/Maquinas/g, 'Máquinas'],
+[/Mecanica/g, 'Mecânica'],
+[/Numerico/g, 'Numérico'],
+[/Potencia/g, 'Potência'],
+[/Principios/g, 'Princípios'],
+[/Programacao/g, 'Programação'],
+[/Protecao/g, 'Proteção'],
+[/Quimica/g, 'Química'],
+[/Seguranca/g, 'Segurança'],
+[/Subestacoes/g, 'Subestações'],
+[/Tecnico/g, 'Técnico'],
+[/Tecnicas/g, 'Técnicas'],
+[/Telecomunicacoes/g, 'Telecomunicações'],
+[/Comunicacao/g, 'Comunicação'],
+[/Termic/g, 'Térmic'],
+[/Transferencia/g, 'Transferência'],
+[/Transmissao/g, 'Transmissão']];
+var indiceProfessor = 1;
+var indiceSala = 2;
+var indiceSemestre = 3;
+var indiceHorario = 4;
+var indiceDia = 5;
+var indiceDisciplina = 6;
+var indiceTurma = 8;
+var indiceVagas = 9;
+var maisInfo = false;
+var mesclarCelulas = true;
+var removerLinhasVazias = false;
+var checkbox = [];
+var labelCb = [];
+var radioButton = [];
+var labelRb = [];
+var modo = 0;
+var td = new Array();
+var ultimoLink = 'A00';
+var localLinks = [];
+function limparTabela() {
+  if (td.length>0) {
+    for(var i = horarios.length-1; i >0 ; i--) {
+      for(var j = dias.length-1; j >0 ; j--) {
+        td[0][i][j].innerHTML = "";
+      }
+    }
+    td[0][i][j].innerHTML = "";
+  }
+}
+function deletarCheckboxes() {
+  var max = checkboxes.childNodes.length;
+  for(var i=max-1; i>=0; i--) {//}
+  var tbl= checkboxes.childNodes[i];
+  
+  if(tbl.nodeName==="LABEL") {
+    tbl.parentNode.removeChild(tbl);
+  }
+}
+checkboxes.parentNode.removeChild(checkboxes);
+}
+function onclickRadiobutton() {
+  menu3.appendChild(criarCheckboxes());
+  if (modo==1) {
+    limparTabela();
+  }
+  if (modo==2){
+    selecionarCheckboxes();
+    preencherTabelas();
+  }
+}
+function onclickCheckbox(cb){  
+  if (modo == 1) {
+    var myCheckboxNames = [];
+    for (var i = 0; i < checkbox.length; i++) {
+      if (checkbox[i].type == "checkbox") {
+        if (checkbox[i].checked) {
+          myCheckboxNames.push(checkbox[i].name);
+        }
+      }
+    }
+    
+    limparTabela();
+    
+    if (radioButton[0].checked) {var indice = indiceSemestre; }
+    if (radioButton[1].checked) {var indice = indiceProfessor;}
+    if (radioButton[2].checked) {var indice = indiceSala;}
+    
+    tableNum=0;
+    preencherTabela(tableNum,indice,myCheckboxNames);
+  }
+  
+  if (modo == 2) {
+    preencherTabelas();
+  }
+}
+function selecionarCheckboxes(){
+  toggleCheckboxes(true);
+}
+function limparCheckboxes(){
+  toggleCheckboxes(false);
+}
+function toggleCheckboxes(value){
+  for (var i = 0; i < checkbox.length; i++){
+    checkbox[i].checked = value;
+  }
+  onclickCheckbox();
+}
+function onkeydown() {
+  if(event.keyCode == 49) {//1
+    container.parentNode.removeChild(container);
+    criarInterface(0);
+  }
+  if(event.keyCode == 50) {//2
+    container.parentNode.removeChild(container);
+    criarInterface(1);
+  }
+  if(event.keyCode == 51) {//3
+    container.parentNode.removeChild(container);
+    criarInterface(2);
+  }  
+  if(event.keyCode == 52) {//4
+    radioButton[0].checked = true;
+    onclickRadiobutton();
+  }
+  if(event.keyCode == 53) {//5
+    radioButton[1].checked = true;
+    onclickRadiobutton();
+  }
+  if(event.keyCode == 54) {//6
+    radioButton[2].checked = true;
+    onclickRadiobutton();
+  }
+  if(event.keyCode == 55) {//7
+    maisInfo = true;
+    onclickRadiobutton();
+  }
+  if(event.keyCode == 56) {//8
+    modoEE();
+  }
+  if(event.keyCode == 57) {//9
+    document.getElementById('menu1').style.display = 'block';
+  }
+  if(event.keyCode == 48) {//0
+    alert("1 - Interface mobile;\n" + "2 - Tabela única;\n" + "3 - Tabelas individuais;\n" + "4 - Modo semestre;\n" + "5 - Modo professor;\n" + "6 - Modo sala;\n" + "7 - Mais informações;\n" + "8 - EE;\n" + "9 - Mostrar mais Opções;\n"+ "0 - Help.\n");
+  }
+  
+  //alert("num: "+num + "\n" + "ultimoLink: " + ultimoLink);
+  if (ultimoLink.charAt(0)===String.fromCharCode(event.keyCode)){
+    var num = parseInt(ultimoLink.substr(1,2),10);
+    if (num<10) {ultimoLink = ultimoLink.charAt(0) + "0" + num;}
+    else {ultimoLink = ultimoLink.charAt(0) + num;}
+    window.location.hash=ultimoLink;
+    if (num<9) {ultimoLink = ultimoLink.charAt(0) + "0" + (num+1);}
+    else {ultimoLink = ultimoLink.charAt(0) + (num+1);}
+  }
+  else {
+    ultimoLink = String.fromCharCode(event.keyCode) + "00";
+    window.location.hash=ultimoLink;
+    ultimoLink = String.fromCharCode(event.keyCode) + "01";
+    num=0;
+  }
+
+  //alert("num: "+num + "\n" + "ultimoLink: " + ultimoLink);
+
+  //alert(String.fromCharCode(event.keyCode));
+};
+function modoEE() {
+  if (radioButton[0].checked) {indice = indiceSemestre;}
+  if (radioButton[1].checked) {indice = indiceProfessor;}
+  if (radioButton[2].checked) {indice = indiceSala;}
+
+  values=[];
+  for (var ii=0; ii<dados.length; ii++) {
+    if (dados[ii][indiceSemestre].indexOf('EE')>=0) {
+      if (values.indexOf(dados[ii][indice])<0) {
+        values.push(dados[ii][indice]);
+      }
+    }
+  }
+
+  for (var ii=0; ii < checkbox.length; ii++) {
+    if (values.indexOf(checkbox[ii].name)>=0 ) {
+      checkbox[ii].checked = true;
+    }
+    else {
+      checkbox[ii].checked = false;
+    }
+  }
+  onclickCheckbox();
+}
+function combinarCelulas(){
+  for (var tableNum = 0; tableNum < td.length; tableNum++) {
+    for (var dia = dias.length-1; dia > 0 ; dia--) {
+      var contador=1;
+      for(var horario = horarios.length-1; horario > 0 ; horario--) {
+        if ((td[tableNum][horario][dia].innerHTML !== '') && (td[tableNum][horario][dia].innerHTML == td[tableNum][horario-1][dia].innerHTML)) {
+          contador++;
+          td[tableNum][horario][dia].style.display = 'none';
+        }
+        else {
+          td[tableNum][horario][dia].rowSpan = contador;
+          if (td[tableNum][horario][dia].innerHTML !== '') {
+            td[tableNum][horario][dia].style.backgroundColor = '#BAFFBA';
+          }
+          contador = 1;
+        }
+      }
+    }
+  }
+}
+function removeEmptyLines(){
+  for (var tableNum = 0; tableNum < td.length; tableNum++) {
+    for(var horario = horarios.length-1; horario > 0 ; horario--) {
+      var contador=0;
+      for (var dia = dias.length-1; dia > 0 ; dia--) {
+        if ((td[tableNum][horario][dia].innerHTML == '')) {
+          contador++;
+        }
+      }
+      if (contador==6) {
+        td[tableNum][horario][0].parentNode.style.display = 'none';
+      }
+    }
+  }
+}
+function criarInterface(layout) {
+  if (layout == 0) {
+    criarTabelaPrincipal(false);
+  }
+  else {
+    criarTabelaPrincipal(true);
+  }
+  
+  document.addEventListener('keydown', onkeydown);
+  
+  opcoes();
+  
+  menu2.appendChild(criarRadiobuttons());
+  
+  radioButton[0].checked = true;
+  
+  var form = document.createElement('form');
+  form.id="checkboxes";
+  menu3.appendChild(form);
+  menu3.appendChild(criarCheckboxes());
+  
+  if ((layout == 0)||(layout == 2)) {
+    modo=2;
+    onclickRadiobutton();
+    selecionarCheckboxes();
+    preencherTabelas();
+  }
+  if (layout == 1){
+    modo = 1;
+    onclickRadiobutton();
+    conteudo.appendChild(criarTabela(0));
+  }
+}
+function criarRadiobuttons(){
+  var labels = ["Semestre","Professor","Sala"];
+  var form = document.createElement('form');
+  for (var ii=0; ii<labels.length; ii++) {
+    radioButton[ii] = document.createElement('input');
+    radioButton[ii].type = "radio";
+    radioButton[ii].name = "radio";
+    radioButton[ii].onclick = onclickRadiobutton;
+    
+    labelRb[ii] = document.createElement('label');
+    labelRb[ii].appendChild(radioButton[ii]);
+    
+    labelRb[ii].appendChild(document.createTextNode(labels[ii]));
+    
+    form.appendChild(labelRb[ii]);
+  }
+  return form;
+}
+function criarCheckboxes(){
+  deletarCheckboxes();
+  
+  if (radioButton[0].checked) {var values=semestres;}
+  if (radioButton[1].checked) {var values=professores;}
+  if (radioButton[2].checked) {var values=salas;}
+  
+  var ultimoLink='A00';
+  localLinks = [];
+  for (var j = 0; j < values.length; j++) {
+    if (ultimoLink.charAt(0)===values[j].charAt(0)) {
+      if (j==0) {num=0;}
+      else {var num = parseInt(ultimoLink.substr(1,2),10)+1;}
+      if (num<10) {ultimoLink = values[j].charAt(0) + '0' + num++;}
+      else {ultimoLink = values[j].charAt(0) + num++;}
+    }
+    else {ultimoLink = values[j].charAt(0) + '00';}
+    localLinks.push(ultimoLink);
+  }
+
+  var form = document.createElement('form');
+  form.id='checkboxes';
+  checkbox = [];
+  for (var ii=0; ii < values.length; ii++) {
+    checkbox[ii]=document.createElement('input');
+    checkbox[ii].type = 'checkbox';
+    checkbox[ii].name = values[ii];
+    checkbox[ii].addEventListener("click",onclickCheckbox, false);
+    
+    labelCb[ii] = document.createElement('label');
+    labelCb[ii].appendChild(checkbox[ii]);
+    
+    labelCb[ii].htmlFor = "id";
+    var a = document.createElement('a');
+    var linkText = document.createTextNode(values[ii]);
+    a.appendChild(linkText);
+    a.href = '#' + localLinks[ii];
+    labelCb[ii].appendChild(a);
+    
+    form.appendChild(labelCb[ii]);
+  }
+  return form;
+}
+function criarTabela(tableNum){
+  var par = true;
+  var body = document.body;
+  tbl = document.createElement('table');
+  tbl.id = tableNum;
+  tbl.className ='page';
+  td[tableNum]=new Array(dias.length);
+  
+  //criar célula em branco para separar tabelas
+  var tr = tbl.insertRow(0);
+  td[tableNum][horarios.length] = tr.insertCell(0);
+  td[tableNum][horarios.length].colSpan=7;
+  td[tableNum][horarios.length].className ="last";
+  
+  for(var i = horarios.length-1; i >=0 ; i--) {
+    td[tableNum][i]=new Array(dias.length);
+    var tr = tbl.insertRow(0);
+    tr.className = (par)?("two"):("one");
+    par=!par;
+    if (i==0) {tr.className ="zero";}
+    for(var j = dias.length-1; j >=0 ; j--) {
+      td[tableNum][i][j] = tr.insertCell(0);
+      if (i==0) {
+        td[tableNum][i][j].innerHTML = dias[j];
+      }
+      else {
+        if (j==0) {
+          td[tableNum][i][j].innerHTML = horarios[i];
+          td[tableNum][i][j].className = "zero";
+        }    
+      }
+    }
+  }
+  return tbl;
+}
+function preencherTabelas() {
+  //deletar tabelas
+  var max = conteudo.childNodes.length;
+  for(var i=max-1; i>=0; i--) {
+    var tbl= conteudo.childNodes[i];
+    if(tbl.nodeName==="TABLE") {
+      tbl.parentNode.removeChild(tbl);
+    }
+  }
+  if (radioButton[0].checked) {var values = semestres; var indice = indiceSemestre;}
+  if (radioButton[1].checked) {var values = professores; var indice = indiceProfessor;}
+  if (radioButton[2].checked) {var values = salas; var indice = indiceSala;}
+  for (var ii=0; ii < values.length; ii++) {
+    if (checkbox[ii].checked) {
+      conteudo.appendChild(criarTabela(ii));
+      preencherTabela(ii,indice,[values[ii]]);
+    }
+  }
+  ultimoLink='A00';
+  if (mesclarCelulas) {
+    combinarCelulas();
+  }
+  if (removerLinhasVazias) {
+    removeEmptyLines();
+  }
+}
+function preencherTabela(tableNum,indice,myCheckboxNames) {
+  for (var j = 0; j < myCheckboxNames.length; j++) {
+    if (td[tableNum][0][0].innerHTML.length>1) {
+      td[tableNum][0][0].innerHTML = td[tableNum][0][0].innerHTML + "<label>" + myCheckboxNames[j].replace(/;/g,'\n')+"</label>";
+    }
+    else {
+      td[tableNum][0][0].innerHTML = "<label>" + "<a style='color:white;' name='"+localLinks[tableNum]+"'>" + myCheckboxNames[j].replace(/;/g,'\n')+"</a>"+"</label>";
+    }
+    for (var i = 0; i < dados.length; i++) {
+      try{
+        if (dados[i][indice].indexOf(myCheckboxNames[j])>=0){
+          //alert(dados[i]);
+          var linha=dados[i];
+          var dia=dias.indexOf(linha[indiceDia]);
+          var horario=horarios.indexOf(linha[indiceHorario]);
+          if (td[tableNum][horario][dia].innerHTML.length>1) {td[tableNum][horario][dia].style.color = "red";}
+          else {td[tableNum][horario][dia].style.color = "black";}
+          var disciplina = linha[indiceDisciplina];
+          disciplina = disciplina.replace(/[a-záéíóúâêô]\S*/gi, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+          for (k=0; k<correcoes.length;k++) {disciplina = disciplina.replace(correcoes[k][0],correcoes[k][1]);}
+          if (maisInfo) {
+            td[tableNum][horario][dia].innerHTML = td[tableNum][horario][dia].innerHTML + '<label>' + disciplina + ', ' + linha[indiceTurma] + ', ' + linha[indiceProfessor] + ', ' +linha[indiceSala] + ', ' +linha[indiceSemestre]+ ', ' +linha[indiceVagas] +'</label>';
+          }
+          else {
+            td[tableNum][horario][dia].innerHTML = td[tableNum][horario][dia].innerHTML + '<label>' + disciplina + ', ' + linha[indiceTurma] + ', ' + linha[indiceProfessor] + ', ' +linha[indiceSala]+'</label>';
+          }
+        }
+      }
+      catch(e){
+        console.log('Erro na linha: ' + dados[i].join(','));
+      }
+    }
+  }
+}
+function opcoes() {
+  var labelOp = document.createElement('label');
+  labelOp.appendChild(document.createTextNode("Selecionar todos"));
+  labelOp.onclick = selecionarCheckboxes;
+  labelOp.className = "comandos";
+  menu0.appendChild(labelOp);
+  var labelOp = document.createElement('label');
+  labelOp.appendChild(document.createTextNode("Limpar todos"));
+  labelOp.onclick = limparCheckboxes;
+  labelOp.className = "comandos";
+  menu0.appendChild(labelOp);
+  var labelOp = document.createElement('label');
+  labelOp.appendChild(document.createTextNode('Mobile'));
+  labelOp.onclick = function() {container.parentNode.removeChild(container); criarInterface(0);};
+  labelOp.className = 'comandos';
+  menu0.appendChild(labelOp);
+  var labelOp = document.createElement('label');
+  labelOp.appendChild(document.createTextNode('Marcar turmas simples'));
+  labelOp.onclick = function() {
+    if (radioButton[0].checked) {
+      for (var ii=0; ii < checkbox.length; ii++) {
+        if (semestres[ii].indexOf(';')<0 ) {
+          checkbox[ii].checked = true;
+        }
+        else {
+          checkbox[ii].checked = false;
+        }
+      }
+    }
+  };
+  labelOp.className = 'comandos';
+  menu1.appendChild(labelOp);
+  
+  var labelOp = document.createElement('label');
+  labelOp.appendChild(document.createTextNode('Marcar EE'));
+  labelOp.onclick = function() {modoEE();}
+  labelOp.className = 'comandos';
+  menu1.appendChild(labelOp);
+  
+  var newCheckbox=document.createElement('input');
+  newCheckbox.type = 'checkbox';
+  newCheckbox.addEventListener('click',function() {
+    for (var i = 0; i < dados.length; i++) {    
+      var nome = dados[i][indiceProfessor].split(' ');
+      var ultimoNome = nome.pop();
+      nome = nome.map(function(s){return s.charAt(0) + '.';})
+      nome.push(ultimoNome);
+      nome = nome.join(' ');
+      dados[i][indiceProfessor] = nome;
+    }
+    onclickCheckbox();
+  }, false);
+  newLabelCb = document.createElement('label');
+  newLabelCb.appendChild(newCheckbox);
+  newLabelCb.appendChild(document.createTextNode('Abreviar nomes'));
+  menu1.appendChild(newLabelCb);
+  
+  var newCheckbox=document.createElement('input');
+  newCheckbox.type = 'checkbox';
+  newCheckbox.addEventListener('click',function() {
+    maisInfo = this.checked;
+    onclickRadiobutton();
+  }, false);
+  newLabelCb = document.createElement('label');
+  newLabelCb.appendChild(newCheckbox);
+  newLabelCb.appendChild(document.createTextNode('Mais detalhes'));
+  menu1.appendChild(newLabelCb);
+  
+  var newCheckbox=document.createElement('input');
+  newCheckbox.type = 'checkbox';
+  newCheckbox.checked = true;
+  newCheckbox.addEventListener('click',function() {
+    mesclarCelulas = this.checked;
+    onclickRadiobutton();
+  }, false);
+  newLabelCb = document.createElement('label');
+  newLabelCb.appendChild(newCheckbox);
+  newLabelCb.appendChild(document.createTextNode('Mesclar células'));
+  menu1.appendChild(newLabelCb);
+  var newCheckbox=document.createElement('input');
+  newCheckbox.type = 'checkbox';
+  newCheckbox.checked = false;
+  newCheckbox.addEventListener('click',function() {
+    removerLinhasVazias = this.checked;
+    onclickRadiobutton();
+  }, false);
+  newLabelCb = document.createElement('label');
+  newLabelCb.appendChild(newCheckbox);
+  newLabelCb.appendChild(document.createTextNode('Remover Linhas Vazias'));
+  menu1.appendChild(newLabelCb);
+}
+function criarTabelaPrincipal(desktop) {
+  var body = document.body;
+  tbl = document.createElement('table');
+  tbl.id = "container";
+  var tr = tbl.insertRow(0);
+  tr.className ="footer";
+  tr.id = "footer";
+  var td = tr.insertCell(0);
+  if (desktop){td.colSpan=2;}
+  td.innerHTML = "JR2014";  // texto rodapé
+  td.style.fontSize = 12;
+  td.className = "footer";
+  var tr = tbl.insertRow(0);
+  var td = tr.insertCell(0);
+  //td.innerHTML = "conteudo";
+  td.className = "conteudo";
+  td.id = "conteudo";
+  if (!desktop){var tr = tbl.insertRow(0);}
+  var td = tr.insertCell(0);
+  td.className = "menu";
+  td.appendChild(criarDiv("menu0","<b>Opções</b>"));
+  td.appendChild(criarDiv("menu1","<b>+Opções</b>"));
+  td.appendChild(criarDiv("menu2","<b>Modo</b>"));
+  td.appendChild(criarDiv("menu3","<b>Seleção</b>"));
+  //menu2.style.visibility = false;
+  var tr = tbl.insertRow(0);
+  tr.className ="header";
+  tr.id = "header";
+  var td = tr.insertCell(0);
+  if (desktop){td.colSpan=2;}
+  td.innerHTML = "Horários";
+  td.className = "tdheader";
+  body.appendChild(tbl);
+}
+function criarDiv(id,texto) {
+  var div0 = document.createElement('div');
+  div0.id = id;
+  div0.innerHTML = texto;
+  return div0;
+}
+function iniciar() {
+  criarInterface(2);
+}
+</script>
+</body>
+</html>
